@@ -16,12 +16,14 @@ mongoose
     console.log("connected to MONGO DB Successfully");
   })
   .catch((err) => {
-    console.log("Connection to mongoDB failed");
+    console.error("Connection to MongoDB failed:", err.message);
   });
 
 app.post("/signup", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
   console.log(req.body);
+  
+
 
   try {
     const existingUser = await User.findOne({ email });
@@ -31,6 +33,7 @@ app.post("/signup", async (req, res) => {
 
     const newUser = new User({ firstName, lastName, email, password });
     await newUser.save();
+
 
     res.status(201).json({ message: "User created successfully!" });
   } catch (err) {
